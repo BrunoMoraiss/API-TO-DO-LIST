@@ -60,19 +60,19 @@ err: "Senha Incorreta"
 - Passar o token de login em forma de Bearer Token. 
 ### Respostas 
 - Caso não seja passado o token.
-### STATUS CODE 403
+#### STATUS CODE 403
 ### Exemplo de respotas:
 ```
 msg: "Você não está autorizado!"
 ```
 - Caso o token seja invalido.
-### STATUS CODE 403
+#### STATUS CODE 403
 ### Exemplo de resposta:
 ```
 msg: "Você não está autorizado!!"
 ```
 - Caso o usuario não tenha a `ROLE = 1 - (Role cadastrada no BD)`, ou seja, não é admin. 
-### STATUS CODE 403
+#### STATUS CODE 403
 ### Exemplo de respostas 
 ```
 msg: "Você não tem permissão para acessar essa rota!"
@@ -86,17 +86,17 @@ const { task, id } = req.body
 ### Respostas
 - Caso o parametro task não seja passado, ou seja passado mas sem nada escrito.
 ### Exemplo de respota: 
-### STATUS CODE 406
+#### STATUS CODE 406
 ```
 err: "Task Invalida"
 ```
 - Caso o `ID` passado seja invalido, ou então não seja correspondente a nenhum usuario cadastrado.
-### SATUS CODE 404
+#### STATUS CODE 404
 ```
 err: 'Usuario não encontrado'
 ```
 - Caso a task seja aceita e for cadastrada no banco de dados. 
-### STATUS CODE 201
+#### STATUS CODE 201
 ### Exemplo de respota: 
 ```
 {
