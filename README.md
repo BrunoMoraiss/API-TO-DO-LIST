@@ -29,7 +29,7 @@ err: 'Usuario já cadastrado com esse email'
 ```
 msg: 'Usuario criado com sucesso'
 ```
-## POST /user
+## POST /login
 - Rota para efetuar o login do usuario.
 ### Parametros 
 ```
@@ -85,8 +85,8 @@ const { task, id } = req.body
 ```
 ### Respostas
 - Caso o parametro task não seja passado, ou seja passado mas sem nada escrito.
-### Exemplo de respota: 
 #### STATUS CODE 406
+### Exemplo de respota: 
 ```
 err: "Task Invalida"
 ```
@@ -108,6 +108,130 @@ err: 'Usuario não encontrado'
     "status": "Pendente"
 }
 ```
+## GET /task/user/:id
+- O objetivo dessa rota é retornar a task referente a cada usuario. 
+### Parametro
+```
+const id = req.params.id
+```
+### Respostas
+- Caso o `ID` do usuario passado como parametro, não corresponda a nenhum usuario no banco de dados. 
+#### STATUS CODE 404
+### Exemplo de respota:
+```
+err: "Usuario não cadastrado"
 
+```
+-  Caso exista task cadastradas para aquele usuario.
+#### STATUS CODE 200
+### Exemplo de respota:
+```
+[
+  {
+    "id": 18,
+    "task": "Acho que funcionou",
+    "status": "Pendente",
+    "userId": 4,
+    "User": {
+                "id": 4,
+                "email": "pegasusbr1000@gmail.com",
+                "role": 1
+            }
+    },
+  {
+    "id": 17,
+    "task": "Término Portifolio",
+    "status": "Concluido",
+    "userId": 4,
+    "User": {
+                "id": 4,
+                "email": "pegasusbr1000@gmail.com",
+                "role": 1
+            }
+   }
+]
 
+```
+## PUT /task/:id
+- Essa rota é utilizada para editar uma task. 
+### Parametro
+```
+ const id = req.params.id
 
+ const { task }= req.body
+```
+### Respostas
+- Caso o `ID` da task passado como parametro, não corresponda a nenhuma task cadastrada no banco de dados. 
+#### STATUS CODE 404
+### Exemplo de respota:
+```
+err: "Task não encontrada"
+```
+- Caso o campo `TASK` passado no corpo da requisição, seja nulo ou esteja sem informação.
+#### STATUS CODE 406
+### Exemplo de respota:
+```
+err: "Task Invalida"
+```
+- Caso a atualização seja feita com sucesso.
+#### STATUS CODE 200
+### Exemplo de respota:
+```
+msg: "Task alterada com sucesso"
+```
+## DELTE /task/:id
+- Rota utilizada para deletar um task.
+### Parametro
+```
+ const id = req.params.id
+```
+### Respostas
+- Caso o `ID` da task passado como parametro, não corresponda a nenhuma task cadastrada no banco de dados. 
+#### STATUS CODE 404
+### Exemplo de respota:
+```
+err: "Task não encontrada"
+```
+- Caso a deleção da task seja concluida com sucesso.
+#### STATUS CODE 200
+### Exemplo de respota:
+```
+msg: 'Task Excluida'
+```
+## PUT /task/status/:id
+- Rota feita somente para alterar o `STATUS` da task, todas por padrão são criadas como `Pendente`, ao chamar essa rota modifica o `STATUS` para `CONCLUIDO`.
+### Parametro
+```
+const id = req.params.id
+```
+### Respostas
+- Caso o `ID` da task passado como parametro, não corresponda a nenhuma task cadastrada no banco de dados. 
+#### STATUS CODE 404
+### Exemplo de respota:
+```
+err: "Task não encontrada"
+```
+- Caso a `TASK` que esteja sendo alterada jà està com o `STATUS` de `CONCLUIDO`, irá retornar as seguintes mensagens:
+#### STATUS CODE 406
+### Exemplo de respota:
+```
+err: 'Essa tarefa já está com o status de concluida'
+```
+- Caso o `STATUS` seja alterado com sucesso. 
+#### STATUS CODE 200
+### Exemplo de respota:
+```
+msg: 'Status alterado'
+```
+# 💻 Pré-requisitos
+- Possuir algum banco de dados SQL no seu computador, seja ele postgres, mysql ou qualquer outro. 
+# 🚀 Instalação do Projeto
+ - Rodar o seguinte comando dentro do cmd ou powershell:
+ ```
+ npm install
+ ```
+ - Alterar a configuração do banco de dados dentro do arquivo `DATABASE.JS`(Localizado dentro da pasta `SRC`, dentro da pasta `CONFIG`)
+ - Rodar o seguinte comando para rodar as `MIGRATIONS`, desta forma já irá estruturar seu BANCO DE DADOS da forma que está igual ao do projeto. 
+ ```
+ npx sequelize db:migrate 
+ ```
